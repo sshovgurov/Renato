@@ -5,7 +5,8 @@ from rest_framework import viewsets, permissions, filters
 
 from .serializers import ProjectSerializer, UserSerializer, PostSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
-from supervisor.models import Project, User, Post, Comment
+from supervisor.models import Project, Post, Comment
+from users.models import User
 
 
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):

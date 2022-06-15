@@ -1,5 +1,6 @@
 from rest_framework import serializers, validators
-from supervisor.models import Project, User, Post, Comment
+from supervisor.models import Project, Post, Comment
+from users.models import User
 
 
 class ProjectSerializer(serializers.ModelSerializer):

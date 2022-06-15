@@ -1,8 +1,7 @@
 from distutils.command.upload import upload
 from enum import auto
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-
+from users.models import User
 
 
 class Project(models.Model):
@@ -10,27 +9,10 @@ class Project(models.Model):
     description = models.TextField(max_length=255, blank=True, null=True)
 
 
-class User(AbstractUser):
-    SUPERVISOR = 'Supervisor'
-    ADMIN = 'Admin'
-    MODERATOR = 'Moderator'
-    CHOISES = (
-        (SUPERVISOR, 'Supervisor'),
-        (ADMIN, 'Admin'),
-        (MODERATOR, 'Moderator'),
-    )
-    bio = models.TextField(
-        'Биография',
-        blank=True,
-        null=True
-    )
-    role = models.CharField(max_length=1, choices=CHOISES, default=SUPERVISOR)
-    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
-
 
 class Post(models.Model):
     text = models.TextField(max_length=255)
-    score = models.PositiveBigIntegerField
+    score = models.PositiveIntegerField
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True, db_index=True)
     author = models.ForeignKey(
         User,
@@ -51,10 +33,9 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(
-        "отчет",
         Post,
         on_delete=models.CASCADE,
-        drelated_name='comments'
+        related_name='comments'
     )
     text = models.TextField(
         'Текст комментария',
@@ -66,7 +47,6 @@ class Comment(models.Model):
         db_index=True,
     )
     author = models.ForeignKey(
-        'Автор комментария',
         User,
         on_delete=models.CASCADE,
         related_name='comments',
