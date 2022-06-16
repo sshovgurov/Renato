@@ -17,5 +17,5 @@ class User(AbstractUser):
         blank=True,
         null=True
     )
-    role = models.CharField(max_length=1, choices=CHOISES, default=SUPERVISOR)
+    role = models.CharField(max_length=32, choices=CHOISES, default=SUPERVISOR)
     #project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)

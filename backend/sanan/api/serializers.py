@@ -18,14 +18,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    
+    author = serializers.SlugRelatedField(slug_field='username', read_only=True)
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = ('id', 'text', 'pub_date', 'author',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    
+    author = serializers.SlugRelatedField(slug_field='username', read_only=True)
+    post = serializers.StringRelatedField()
     class Meta:
         model = Comment
-        fields = "__all__"
+        fields = ('id', 'post', 'text', 'created', 'author', )
