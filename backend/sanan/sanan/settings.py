@@ -21,7 +21,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'supervisor',
     'api',
-    'users',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +64,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'supervisor.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

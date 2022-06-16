@@ -1,7 +1,6 @@
+from asyncore import read
 from rest_framework import serializers, validators
-from supervisor.models import Project, Post, Comment
-from users.models import User
-
+from supervisor.models import Project, Post, Comment, User
 
 class ProjectSerializer(serializers.ModelSerializer):
     
@@ -11,10 +10,10 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    
+    project = serializers.SlugRelatedField(slug_field='title', read_only=True)
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ('username', 'bio', 'role', 'project',)
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -26,7 +25,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(slug_field='username', read_only=True)
-    post = serializers.StringRelatedField()
+    post = serializers.SlugRelatedField(slug_field='id', read_only=True)
     class Meta:
         model = Comment
         fields = ('id', 'post', 'text', 'created', 'author', )

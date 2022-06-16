@@ -5,8 +5,7 @@ from rest_framework import viewsets, permissions, filters
 
 from .serializers import ProjectSerializer, UserSerializer, PostSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
-from supervisor.models import Project, Post, Comment
-from users.models import User
+from supervisor.models import Project, Post, Comment, User
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -26,7 +25,8 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Project.objects.all()
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
     queryset = User.objects.all()
 

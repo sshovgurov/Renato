@@ -1,12 +1,30 @@
 from distutils.command.upload import upload
 from enum import auto
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from users.models import User
 
 
 class Project(models.Model):
     title = models.CharField(max_length=32, unique=True)
     description = models.TextField(max_length=255, blank=True, null=True)
+
+    
+class User(AbstractUser):
+    SUPERVISOR = 'Supervisor'
+    ADMIN = 'Admin'
+    MODERATOR = 'Moderator'
+    CHOISES = (
+        (SUPERVISOR, 'Supervisor'),
+        (ADMIN, 'Admin'),
+        (MODERATOR, 'Moderator'),
+    )
+    bio = models.TextField(
+        'Биография',
+        blank=True,
+        null=True
+    )
+    role = models.CharField(max_length=32, choices=CHOISES, default=SUPERVISOR)
+    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
 
 
 
